@@ -1,0 +1,33 @@
+import requests
+import json
+
+url = "https://api.monsterapi.ai/v1/generate"
+
+API_Key = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjVkZTdiZDhkOTg0Njg2NDEyZmI4OGVkYWY0Mzk4N2NkIiwiY3JlYXRlZF9hdCI6IjIwMjQtMTAtMjRUMTA6MDc6NTguNTM1MDY3In0.H5cK0E14lWHqWtMUiC1bX05CgAmmAuIB9ITsM14n64E"
+
+headers = {
+    "accept": "application/json",
+    "content-type": "application/json",
+    "authorization": f"Bearer {eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IjVkZTdiZDhkOTg0Njg2NDEyZmI4OGVkYWY0Mzk4N2NkIiwiY3JlYXRlZF9hdCI6IjIwMjQtMTAtMjRUMTA6MDc6NTguNTM1MDY3In0.H5cK0E14lWHqWtMUiC1bX05CgAmmAuIB9ITsM14n64E}"
+}
+
+payload = {
+    "beam_size": 1,
+    "max_length": 256,
+    "prompt": "What is two + two?",
+    "repetition_penalty": 1.2,
+    "temp": 0.98,
+    "top_k": 40,
+    "top_p": 1
+}
+
+response = requests.post(url, headers=headers, json=payload)
+
+process_id = json.loads(response.text)['process_id']
+
+
+url = f"https://api.monsterapi.ai/v1/status/{process_id}"
+
+response = requests.get(url, headers=headers)
+
+print(response.text)
